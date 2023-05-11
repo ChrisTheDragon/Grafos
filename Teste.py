@@ -1,4 +1,4 @@
-import API_Grafos_1_5 as G
+import API_Grafos as G
 
 if __name__ ==  '__main__':
     # Teste da implementação de lista de adjacências
@@ -29,6 +29,11 @@ if __name__ ==  '__main__':
     g2.mostrar_vertices()
     
     
-    dfs1 = G.BuscaEmProfundidade(g1)
-    dfs1.DFS()
-    dfs1.print_resultado_DFS()
+    #dfs1 = G.BuscaEmProfundidade(g1)
+    #dfs1.DFS()
+    #dfs1.print_resultado_DFS()
+    
+    
+    bfs1 = G.BuscaEmLargura(g1, 1)
+    bfs1.BFS()
+    bfs1.print_resultado_BFS()

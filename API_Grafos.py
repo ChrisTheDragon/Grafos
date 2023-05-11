@@ -1,10 +1,10 @@
 '''
-
+Adapte e implemente o alg. BFS de Sedgewick (ver slides) para funcionar de acordo com o algoritmo
 
 Aluno: Christian J. C. Marinho
 Matricula: 202004940041
 '''
-
+from collections import deque
 class Grafos_Lista:
     def __init__(self, num_vertices: int):
         self.num_vertices = num_vertices
@@ -45,7 +45,6 @@ class Grafos_Lista:
 
     
     def Adj(self, vertice):
-        #print(f'Adjacencias ao vertice {vertice}: {self.lista_adjacencias[vertice-1]}\n')
         return self.lista_adjacencias[vertice-1]
 
 
@@ -113,22 +112,22 @@ class Grafos_Matrizes:
 
 
 class BuscaEmProfundidade:
-    def __init__(self, G: Grafos_Lista):
+    def __init__(self, G):
         self.pi = dict() #salva o antecessor de um vertice. Sempre que um vertice v for descoberto durante a leitura da lista de adj. de um vertice ja descoberto u, π[v] = u;
         self.cor = dict() #mantem a cor do vertice u e V
         self.__d = dict() #salva o tempo de quando o vertice v foi descoberto e colorido como cinza;
         self.__f = dict() #salva o tempo de quando de quando a busca finaliza o exame da lista de adjacencias do vertice v e o colore como preto.
         self.time = 0
-        #self.marcado = []
+        self.marcado = []
         self.G = G
-
+        
 
     def DFS(self):
-        for vertice in range(self.G.num_vertices): 
+        for vertice in range(self.G.V()): 
             self.pi[vertice+1] = None #Iniciado com Nulo
             self.cor[vertice+1] = "BRANCO" #Inicializacao - vertices coloridos de branco;
         
-        for vertice in range(self.G.num_vertices):
+        for vertice in range(self.G.V()):
             if self.cor[vertice+1] == "BRANCO":
                 self.dfs_visit(vertice+1)
 
@@ -176,6 +175,63 @@ class BuscaEmProfundidade:
             
         print("\nLista de antecessores de cada vértice:")
         for v, antecessor in self.pi.items():
+            if antecessor is None:
+                print(f"vértice {v}: sem antecessor")
+            else:
+                print(f"vértice {v}: {antecessor}")
+                
+
+
+
+class BuscaEmLargura:
+    def __init__(self, G, s):
+        self.vertices = G.V()  # Total de vértices do grafo
+        self.cor = ['BRANCO'] * self.vertices  # Mantém a cor de cada vértice (BRANCO, CINZA, PRETO)
+        self.__d = [float('inf')] * self.vertices  # Mantém a distância de cada vértice em relação ao vértice inicial
+        self.pi = [None] * self.vertices  # Mantém o antecessor de cada vértice durante a busca
+        self.cor[s] = 'CINZA'
+        self.__d[s] = 0
+        self.pi[s] = None
+        self.marcado = [False] * self.vertices
+        self.G = G
+        self.s = s
+
+
+    def BFS(self):
+        Q = deque()
+        Q.append(self.s)
+        
+        while Q:
+            u = Q.popleft()
+            for v in self.G.Adj(u):
+                if self.cor[v-1] == 'BRANCO':
+                    self.cor[v-1] = 'CINZA'
+                    self.__d[v-1] = self.__d[u] + 1
+                    self.pi[v-1] = u
+                    Q.append(v)
+            self.cor[u] = 'PRETO'
+            self.marcado[u] = True
+
+
+    def marcado(self, w):
+        return self.marcado[w]
+    
+    
+    def get_tempos_iniciais(self):
+        return self.__d
+
+    
+    def get_antecessores(self):
+        return self.pi
+    
+
+    def print_resultado_BFS(self):
+        print("Tempo de descoberta de cada vértice (d):")
+        for v, tempo in self.__d:
+            print(f"vértice {v}: {tempo}")
+            
+        print("\nLista de antecessores de cada vértice:")
+        for v, antecessor in self.pi:
             if antecessor is None:
                 print(f"vértice {v}: sem antecessor")
             else:
