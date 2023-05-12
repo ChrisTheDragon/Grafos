@@ -4,7 +4,9 @@ Adapte e implemente o alg. BFS de Sedgewick (ver slides) para funcionar de acord
 Aluno: Christian J. C. Marinho
 Matricula: 202004940041
 '''
+
 from collections import deque
+
 class Grafos_Lista:
     def __init__(self, num_vertices: int):
         self.num_vertices = num_vertices
@@ -118,7 +120,6 @@ class BuscaEmProfundidade:
         self.__d = dict() #salva o tempo de quando o vertice v foi descoberto e colorido como cinza;
         self.__f = dict() #salva o tempo de quando de quando a busca finaliza o exame da lista de adjacencias do vertice v e o colore como preto.
         self.time = 0
-        self.marcado = []
         self.G = G
         
 
@@ -189,12 +190,13 @@ class BuscaEmLargura:
         self.cor = ['BRANCO'] * self.vertices  # Mantém a cor de cada vértice (BRANCO, CINZA, PRETO)
         self.__d = [float('inf')] * self.vertices  # Mantém a distância de cada vértice em relação ao vértice inicial
         self.pi = [None] * self.vertices  # Mantém o antecessor de cada vértice durante a busca
-        self.cor[s] = 'CINZA'
-        self.__d[s] = 0
-        self.pi[s] = None
-        self.marcado = [False] * self.vertices
+        self.s = s -1
+        self.cor[self.s] = 'CINZA'
+        self.__d[self.s] = 0
+        self.pi[self.s] = None
+        self.v_marcado = [False] * self.vertices
         self.G = G
-        self.s = s
+        
 
 
     def BFS(self):
@@ -203,18 +205,20 @@ class BuscaEmLargura:
         
         while Q:
             u = Q.popleft()
-            for v in self.G.Adj(u):
-                if self.cor[v-1] == 'BRANCO':
-                    self.cor[v-1] = 'CINZA'
-                    self.__d[v-1] = self.__d[u] + 1
-                    self.pi[v-1] = u
+            adj = self.G.Adj(u)
+            adj = [i-1 for i in adj]
+            for v in adj:
+                if self.cor[v] == 'BRANCO':
+                    self.cor[v] = 'CINZA'
+                    self.__d[v] = self.__d[u] + 1
+                    self.pi[v] = u
                     Q.append(v)
             self.cor[u] = 'PRETO'
-            self.marcado[u] = True
-
+            self.v_marcado[u] = True
+        
 
     def marcado(self, w):
-        return self.marcado[w]
+        return self.v_marcado[w]
     
     
     def get_tempos_iniciais(self):
@@ -227,12 +231,12 @@ class BuscaEmLargura:
 
     def print_resultado_BFS(self):
         print("Tempo de descoberta de cada vértice (d):")
-        for v, tempo in self.__d:
-            print(f"vértice {v}: {tempo}")
+        for v in range(len(self.__d)):
+            print(f"vértice {v+1}: {self.__d[v]}")
             
         print("\nLista de antecessores de cada vértice:")
-        for v, antecessor in self.pi:
-            if antecessor is None:
-                print(f"vértice {v}: sem antecessor")
+        for v in range(len(self.pi)):
+            if self.pi[v] is None:
+                print(f"vértice {v+1}: sem antecessor")
             else:
-                print(f"vértice {v}: {antecessor}")
+                print(f"vértice {v+1}: {self.pi[v]}")
