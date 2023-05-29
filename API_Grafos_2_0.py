@@ -1,6 +1,6 @@
 '''
-Trabalho 8 - Implementação do Alg. de Bellman-Ford
-Baseado nas implementações dos trabalhos anteriores, implementar o alg. de Bellman-Ford
+Trabalho 9 - Implementação do Alg. de Floyd-Warshall
+Baseado nas implementações dos trabalhos anteriores, implementar o alg. de Floyd-Warshall
 
 Aluno: Christian J. C. Marinho
 Matricula: 202004940041
