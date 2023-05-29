@@ -15,7 +15,7 @@ g1.addAresta(6, 8)
 
 g1.mostrar_vertices()
 
-dfs = G.BuscaEmProfundidade(g1, 4)
+'''dfs = G.BuscaEmProfundidade(g1, 4)
 print(dfs.v_marcado(1))
 print(dfs.contador())
 
@@ -36,4 +36,6 @@ for v in range(g1.V()):
 if g1.bellman_ford(4):
     print("Ciclo de peso negativo encontrado")
 else:
-    print("Não há ciclos de peso negativo")
+    print("Não há ciclos de peso negativo")'''
+
+g1.floyd_warshall();

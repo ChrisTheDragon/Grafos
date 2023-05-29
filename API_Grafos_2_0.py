@@ -96,6 +96,40 @@ class Grafo:
         
         return False
     
+    def floyd_warshall(self):
+        n = self.V()
+        dist = [[float('inf') for _ in range(n)] for _ in range(n)]
+        pred = [[None for _ in range(n)] for _ in range(n)]
+        
+        for v in range(n):
+            for w in range(n):
+                if v == w:
+                    dist[v][w] = 0
+                else:
+                    for u in self.adj(v):
+                        if u == w:
+                            dist[v][w] = self.weight()
+                    pred[v][w] = v
+        
+        for k in range(n):
+            for v in range(n):
+                for w in range(n):
+                    if dist[v][k] + dist[k][w] < dist[v][w]:
+                        dist[v][w] = dist[v][k] + dist[k][w]
+                        pred[v][w] = pred[k][w]
+        
+        self.dist = dist
+        self.pi = pred
+        
+        print("Matriz de distâncias:")
+        for row in self.dist:
+            print(row)
+        
+        print("\nMatriz de predecessores:")
+        for row in self.pi:
+            print(row)
+
+
 
 
 
@@ -157,7 +191,4 @@ if __name__ == '__main__':
 
     g1.mostrar_vertices()
     
-    if g1.bellman_ford(4):
-        print("Ciclo de peso negativo encontrado")
-    else:
-        print("Não há ciclos de peso negativo")
+    g1.floyd_warshall()
