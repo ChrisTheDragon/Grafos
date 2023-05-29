@@ -1,6 +1,6 @@
 '''
-Trabalho 7 - Implementação do Alg. de Dijkstra
-Baseado nas implementações dos trabalhos anteriores, implementar o alg. de Dijkstra
+Trabalho 8 - Implementação do Alg. de Bellman-Ford
+Baseado nas implementações dos trabalhos anteriores, implementar o alg. de Bellman-Ford
 
 Aluno: Christian J. C. Marinho
 Matricula: 202004940041
@@ -80,6 +80,21 @@ class Grafo:
                 self.relax(u, v, self.weight())
                 if v not in S:
                     heapq.heappush(Q, (self.d[v], v))
+                    
+    def bellman_ford(self, s):
+        self.initialize_single_source(s)
+        
+        for _ in range(self.V() - 1):
+            for u in range(self.V()):
+                for v in self.adj(u):
+                    self.relax(u, v, self.weight())
+        
+        for u in range(self.V()):
+            for v in self.adj(u):
+                if self.d[v] > self.d[u] + self.weight():
+                    return True
+        
+        return False
     
 
 
@@ -142,9 +157,7 @@ if __name__ == '__main__':
 
     g1.mostrar_vertices()
     
-    g1.dijkstra(5)
-    # Acessar as distâncias mínimas e predecessores para cada vértice
-    for v in range(g1.V()):
-        print(f"Distância mínima até o vértice {v}: {g1.d[v]}")
-        print(f"Predecessor do vértice {v}: {g1.pi[v]}")
-        print()
+    if g1.bellman_ford(4):
+        print("Ciclo de peso negativo encontrado")
+    else:
+        print("Não há ciclos de peso negativo")

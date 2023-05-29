@@ -76,7 +76,7 @@ class Grafo:
     def bellman_ford(self, s):
         self.initialize_single_source(s)
         
-        for i in range(self.V() - 1):
+        for _ in range(self.V() - 1):
             for u in range(self.V()):
                 for v in self.adj(u):
                     self.relax(u, v, self.weight())

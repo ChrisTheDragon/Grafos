@@ -33,7 +33,7 @@ for v in range(g1.V()):
     print()
 
 
-if g1.bellman_ford(0):
+if g1.bellman_ford(4):
     print("Ciclo de peso negativo encontrado")
 else:
     print("Não há ciclos de peso negativo")
