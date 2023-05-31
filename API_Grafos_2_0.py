@@ -1,6 +1,6 @@
 '''
-Trabalho 9 - Implementação do Alg. de Floyd-Warshall
-Baseado nas implementações dos trabalhos anteriores, implementar o alg. de Floyd-Warshall
+Trabalho 10 - Implementar o Alg. para Encontrar os Componentes Conectados
+Baseado nos trabalhos anteriores, implemente o alg. para encontrar os componentes conectados em um grafo não direcionado.
 
 Aluno: Christian J. C. Marinho
 Matricula: 202004940041
@@ -175,6 +175,31 @@ class BuscaEmLargura:
 
 
 
+
+class ComponentesConectados:
+    def __init__(self, G: Grafo):
+        self.marcado = [False] * G.V()
+        self.componentes = []
+        for v in range(G.V()):
+            if not self.marcado[v]:
+                componente = []
+                self.dfs(G, v, componente)
+                self.componentes.append(componente)
+    
+    def dfs(self, G: Grafo, v, componente):
+        self.marcado[v] = True
+        componente.append(v)
+        for w in G.adj(v):
+            if not self.marcado[w]:
+                self.dfs(G, w, componente)
+    
+    def obter_componentes(self):
+        return self.componentes
+
+
+
+
+
 if __name__ == '__main__':
     g1 = Grafo(8)
 
@@ -183,12 +208,16 @@ if __name__ == '__main__':
     g1.addAresta(0, 6)
     g1.addAresta(0, 5)
     g1.addAresta(1, 7)
-    g1.addAresta(2, 3)
+    #g1.addAresta(2, 3)
     g1.addAresta(2, 5)
     g1.addAresta(3, 4)
     g1.addAresta(5, 6)
     g1.addAresta(6, 8)
 
-    g1.mostrar_vertices()
-    
-    g1.floyd_warshall()
+    # Encontrar os componentes conectados
+    cc = ComponentesConectados(g1)
+    componentes = cc.obter_componentes()
+
+    # Imprimir os componentes encontrados
+    for componente in componentes:
+        print("Componente:", componente)
