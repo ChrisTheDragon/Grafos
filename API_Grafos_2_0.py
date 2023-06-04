@@ -128,6 +128,23 @@ class Grafo:
         print("\nMatriz de predecessores:")
         for row in self.pi:
             print(row)
+    
+    def warshall(self):
+        n = self.V()
+        fecho = [[0] * n for _ in range(n)]
+        
+        for i in range(n):
+            for j in self.adj(i):
+                fecho[i][j] = 1
+                
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    fecho[i][j] = fecho[i][j] or (fecho[i][k] and fecho[k][j])
+        
+        print("Fecho Transitivo:")
+        for row in fecho:
+            print(row)
 
 
 
@@ -201,23 +218,19 @@ class ComponentesConectados:
 
 
 if __name__ == '__main__':
-    g1 = Grafo(8)
 
+    g1 = Grafo(4)
     g1.addAresta(0, 1)
-    g1.addAresta(0, 7)
-    g1.addAresta(0, 6)
-    g1.addAresta(0, 5)
-    g1.addAresta(1, 7)
-    #g1.addAresta(2, 3)
-    g1.addAresta(2, 5)
-    g1.addAresta(3, 4)
-    g1.addAresta(5, 6)
-    g1.addAresta(6, 8)
+    g1.addAresta(1, 2)
+    g1.addAresta(2, 3)
+    
+    g2 = Grafo(5)
+    g2.addAresta(0, 1)
+    g2.addAresta(1, 2)
+    g2.addAresta(2, 3)
+    g2.addAresta(3, 1)
+    g2.addAresta(4, 5)
 
-    # Encontrar os componentes conectados
-    cc = ComponentesConectados(g1)
-    componentes = cc.obter_componentes()
-
-    # Imprimir os componentes encontrados
-    for componente in componentes:
-        print("Componente:", componente)
+    # Encontrar o fecho transitivo
+    g1.warshall()
+    g2.warshall()
