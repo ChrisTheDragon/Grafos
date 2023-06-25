@@ -1,6 +1,6 @@
 '''
-Trabalho 10 - Implementar o Alg. para Encontrar os Componentes Conectados
-Baseado nos trabalhos anteriores, implemente o alg. para encontrar os componentes conectados em um grafo não direcionado.
+Trabalho 10 - Implementar o Alg. de Warshall para encontrar o Fecho Transitivo
+Baseado em uma representação computacional de grafos implementada anteriormente, implementar o Alg. de Warshall para encontrar o Fecho Transitivo.
 
 Aluno: Christian J. C. Marinho
 Matricula: 202004940041
@@ -51,7 +51,7 @@ class Grafo:
                 print(j, end=" ")
             print()
         print()
-        
+           
     def initialize_single_source(self, s):
         for v in range(self.V()):
             self.d[v] = float('inf')
@@ -212,25 +212,3 @@ class ComponentesConectados:
     
     def obter_componentes(self):
         return self.componentes
-
-
-
-
-
-if __name__ == '__main__':
-
-    g1 = Grafo(4)
-    g1.addAresta(0, 1)
-    g1.addAresta(1, 2)
-    g1.addAresta(2, 3)
-    
-    g2 = Grafo(5)
-    g2.addAresta(0, 1)
-    g2.addAresta(1, 2)
-    g2.addAresta(2, 3)
-    g2.addAresta(3, 1)
-    g2.addAresta(4, 5)
-
-    # Encontrar o fecho transitivo
-    g1.warshall()
-    g2.warshall()
